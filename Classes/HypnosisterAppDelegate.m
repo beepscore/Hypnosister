@@ -7,6 +7,7 @@
 //
 
 #import "HypnosisterAppDelegate.h"
+#import "HypnosisView.h"
 
 @implementation HypnosisterAppDelegate
 
@@ -16,12 +17,18 @@
 #pragma mark -
 #pragma mark Application lifecycle
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+    CGRect wholeWindow = [window bounds];
     
-    // Override point for customization after application launch.
+    view = [[HypnosisView alloc] initWithFrame:wholeWindow];
+    [view setBackgroundColor:[UIColor clearColor]];
+    // the window will retain its subview.
+    [window addSubview:view];
+    // release the view as soon as we are done with the reference to it
+    [view release];
     
-    [self.window makeKeyAndVisible];
-    
+    [self.window makeKeyAndVisible];    
     return YES;
 }
 
@@ -73,9 +80,13 @@
      */
 }
 
-
+// A dealloc method that will never get called because
+// HypnosisAppDelegate will exist for the life of the application
 - (void)dealloc {
+    
+    // When the window is released, it releases its subviews.
     [window release];
+    
     [super dealloc];
 }
 

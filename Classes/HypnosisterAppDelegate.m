@@ -51,6 +51,10 @@
     // release the views as soon as we are done with the references to them
     [scrollView release];
     
+    // book method setStatusBarHidden:animated: is deprecated
+    // replace with setStatusBarHidden:withAnimation:
+    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:NO];
+    
     [self.window makeKeyAndVisible];    
     return YES;
 }

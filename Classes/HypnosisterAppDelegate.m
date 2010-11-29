@@ -37,14 +37,18 @@
     offset.y = wholeWindow.size.height * 0.5;
     [scrollView setContentOffset:offset];
     
-    // Create the view
-    view = [[HypnosisView alloc] initWithFrame:reallyBigRect];
-    [view setBackgroundColor:[UIColor clearColor]];
+    // Enable zooming
+    [scrollView setMinimumZoomScale:0.5];
+    [scrollView setMaximumZoomScale:5.0];
+    [scrollView setDelegate:self];
+    
+    // Create the hypnosisView
+    hypnosisView = [[HypnosisView alloc] initWithFrame:reallyBigRect];
+    [hypnosisView setBackgroundColor:[UIColor clearColor]];
     // the window will retain its subview.
-    [scrollView addSubview:view];
+    [scrollView addSubview:hypnosisView];
     
     // release the views as soon as we are done with the references to them
-    [view release];
     [scrollView release];
     
     [self.window makeKeyAndVisible];    
@@ -92,7 +96,6 @@
 
 #pragma mark -
 #pragma mark Memory management
-
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)application {
     /*
      Free up as much memory as possible by purging cached data objects that can be recreated (or reloaded from disk) later.
@@ -103,10 +106,21 @@
 // HypnosisAppDelegate will exist for the life of the application
 - (void)dealloc {
     
+    [hypnosisView release];
+    // don't worry about setting scrollView delegate to nil, app is ending
+    
     // When the window is released, it releases its subviews.
     [window release];
     
     [super dealloc];
+}
+
+
+#pragma mark -
+#pragma mark UIScrollViewDelegate method
+- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
+{
+    return hypnosisView;
 }
 
 @end

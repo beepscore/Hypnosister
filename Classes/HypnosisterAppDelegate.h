@@ -9,9 +9,10 @@
 #import <UIKit/UIKit.h>
 @class HypnosisView;
 
-@interface HypnosisterAppDelegate : NSObject <UIApplicationDelegate> {
+@interface HypnosisterAppDelegate : NSObject <UIApplicationDelegate, UIScrollViewDelegate>
+{
     UIWindow *window;
-    HypnosisView *view;
+    HypnosisView *hypnosisView;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;

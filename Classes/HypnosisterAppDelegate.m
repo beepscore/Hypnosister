@@ -21,12 +21,31 @@
 {
     CGRect wholeWindow = [window bounds];
     
-    view = [[HypnosisView alloc] initWithFrame:wholeWindow];
+    UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:wholeWindow];
+    [window addSubview:scrollView];
+    
+    // Make the scroll view content twice as large as the window
+    CGRect reallyBigRect;
+    reallyBigRect.origin = CGPointZero;
+    reallyBigRect.size.width = wholeWindow.size.width * 2.0;
+    reallyBigRect.size.height = wholeWindow.size.height * 2.0;
+    [scrollView setContentSize:reallyBigRect.size];
+    
+    // Center it in the scroll view
+    CGPoint offset;
+    offset.x = wholeWindow.size.width * 0.5;
+    offset.y = wholeWindow.size.height * 0.5;
+    [scrollView setContentOffset:offset];
+    
+    // Create the view
+    view = [[HypnosisView alloc] initWithFrame:reallyBigRect];
     [view setBackgroundColor:[UIColor clearColor]];
     // the window will retain its subview.
-    [window addSubview:view];
-    // release the view as soon as we are done with the reference to it
+    [scrollView addSubview:view];
+    
+    // release the views as soon as we are done with the references to them
     [view release];
+    [scrollView release];
     
     [self.window makeKeyAndVisible];    
     return YES;
@@ -89,6 +108,5 @@
     
     [super dealloc];
 }
-
 
 @end

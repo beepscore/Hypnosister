@@ -42,12 +42,18 @@
     // All lines will be drawn 10 points wide
     CGContextSetLineWidth(context, 10.0);
     
-    // Set the stroke color to light gray
-    [[UIColor lightGrayColor] setStroke];
     
     // Draw concentric circles from the outside in
     for (float currentRadius = maxRadius; currentRadius > 0; currentRadius -= 20) 
     {
+        // choose a color based on currentRadius
+        UIColor *arcColor = [UIColor colorWithHue:0.05 + (0.9 * (currentRadius/maxRadius))
+                                       saturation:0.9 
+                                       brightness:0.9 
+                                            alpha:1.0];
+        // Set the stroke color
+        [arcColor setStroke];
+
         CGContextAddArc(context, center.x, center.y, currentRadius, 0.0, 2.0 * M_PI, YES);
         CGContextStrokePath(context);
     }
